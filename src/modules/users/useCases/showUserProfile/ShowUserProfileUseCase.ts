@@ -10,15 +10,13 @@ class ShowUserProfileUseCase {
 
   execute({ user_id }: IRequest): User {
     // Complete aqui
-    const idExists = this.usersRepository.findById(user_id);
+    const userExists = this.usersRepository.findById(user_id);
 
-    if (!idExists) {
-      throw new Error("Id not exist!");
+    if (!userExists) {
+      throw new Error("User not exists to show profile");
     }
 
-    const user = this.usersRepository.findById(user_id);
-
-    return user;
+    return userExists;
   }
 }
 

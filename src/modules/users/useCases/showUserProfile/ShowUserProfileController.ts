@@ -7,11 +7,14 @@ class ShowUserProfileController {
 
   handle(request: Request, response: Response): Response {
     // Complete aqui
-    const { user_id } = request.body;
-
-    this.showUserProfileUseCase.execute({ user_id });
-
-    return response.status(201).send();
+    const { user_id } = request.params;
+    console.log(user_id);
+    try {
+      const user = this.showUserProfileUseCase.execute({ user_id });
+      return response.status(201).json(user);
+    } catch (error) {
+      return response.status(404).json({ error: error.message });
+    }
   }
 }
 

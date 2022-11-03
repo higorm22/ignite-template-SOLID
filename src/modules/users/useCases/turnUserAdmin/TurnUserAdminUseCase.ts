@@ -10,14 +10,13 @@ class TurnUserAdminUseCase {
 
   execute({ user_id }: IRequest): User {
     // Complete aqui
-    const userAlreadyExists = this.usersRepository.findById(user_id);
+    const receivedUser = this.usersRepository.findById(user_id);
 
-    if (!userAlreadyExists) {
-      throw new Error("User not exists!");
+    if (!receivedUser) {
+      throw new Error("User id not exists to admin ");
     }
-
-    this.usersRepository.turnAdmin(userAlreadyExists);
-    return userAlreadyExists;
+    const user = this.usersRepository.turnAdmin(receivedUser);
+    return user;
   }
 }
 
