@@ -1,0 +1,200 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Desafio SOLID",
+    "description": "Essa API tem como objetivo documentar API Desafio SOLID",
+    "termsOfService": "http://localhost:3333/terms",
+    "version": "1.0.0",
+    "Contact": {
+      "email": "higormoraes22@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/",
+      "description": "API de test"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "sumary": "Cadastro de usuário",
+        "description": "Essa rota cadastra um novo usuário",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Higor Moraes",
+                    "email": "higormoraes22@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Email alredy exists"
+          },
+          "201": {
+            "description": "Create User!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Lista todos usuários",
+        "sumary": "Lista todos usuários, desde que que o usuário seja um ADMIN",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "Id usuário para buscar",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "User is not a Admin"
+          },
+          "201": {
+            "description": "Lista Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "description": "Lista todos usuários",
+        "sumary": "Lista todos usuários, deque que o usuário seja um ADMIN",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Lista usuários pelo ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "User is not a Admin"
+          },
+          "201": {
+            "description": "Lista Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "description": "Alterar usuário para ADM",
+        "sumary": "Alterar usuário para um ADMIN",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Lista usuários pelo ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "admin": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "User not exists to show profile"
+          },
+          "201": {
+            "description": "Alteração Users Admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
